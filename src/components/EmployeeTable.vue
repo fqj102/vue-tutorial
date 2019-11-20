@@ -19,33 +19,37 @@
                     :key="employee.id"
                     v-for="employee in employees"
             >
-                <td v-if="editing === employee.id">
-                    <input
-                            type="text"
-                            v-model="employee.name"
-                    >
-                </td>
-                <td v-else>{{employee.name}}</td>
-                <td v-if="editing === employee.id">
-                    <input
-                            type="text"
-                            v-model="employee.email"
-                    >
-                </td>
-                <td v-else>{{employee.email}}</td>
-                <td v-if="editing === employee.id">
-                    <button @click="editEmployee(employee)">Save</button>
-                    <button
-                            class="muted-button"
-                            @click="cancelEdit(employee)"
-                    >Cancel
-                    </button>
-                </td>
-                <td v-else>
-                    <button @click="editMode(employee)">Edit</button>
-                    <button @click="$emit('delete:employee', employee.id)">Delete</button>
-                </td>
+                <fragment v-if="editing === employee.id">
+                    <td>
+                        <input
+                                type="text"
+                                v-model="employee.name"
+                        >
+                    </td>
+                    <td>
+                        <input
+                                type="text"
+                                v-model="employee.email"
+                        >
+                    </td>
+                    <td>
+                        <button @click="editEmployee(employee)">Save</button>
+                        <button
+                                class="muted-button"
+                                @click="cancelEdit(employee)"
+                        >Cancel
+                        </button>
+                    </td>
+                </fragment>
 
+                <fragment v-else>
+                    <td>{{employee.name}}</td>
+                    <td>{{employee.email}}</td>
+                    <td>
+                        <button @click="editMode(employee)">Edit</button>
+                        <button @click="$emit('delete:employee', employee.id)">Delete</button>
+                    </td>
+                </fragment>
             </tr>
             </tbody>
         </table>
@@ -63,7 +67,7 @@
                 editing: null,
             }
         },
-        mounted(){
+        mounted() {
             console.log("########### EmployeeTable.vue mounted ########");
         },
         methods: {
