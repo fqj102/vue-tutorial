@@ -1,5 +1,9 @@
 <template>
     <div id="employee-form">
+        <fragment v-if="error">
+            <p>*****error****</p>
+            <p>*****error****</p>
+        </fragment>
         <form @submit.prevent="handleSubmit">
 
             <label>Employee name</label>
@@ -33,6 +37,7 @@
 </template>
 
 <script>
+
     export default {
         name: 'employee-form',
         data() {
