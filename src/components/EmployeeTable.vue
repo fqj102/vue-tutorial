@@ -63,6 +63,9 @@
                 editing: null,
             }
         },
+        mounted(){
+            console.log("########### EmployeeTable.vue mounted ########");
+        },
         methods: {
             editMode(employee) {
                 this.cachedEmployee = Object.assign({}, employee)

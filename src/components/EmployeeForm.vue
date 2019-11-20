@@ -46,6 +46,9 @@
                 }
             }
         },
+        mounted(){
+            console.log("########### EmployeeForm.vue mounted ########");
+        },
         computed: {
             invalidName() {
                 return this.employee.name === ''

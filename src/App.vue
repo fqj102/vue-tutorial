@@ -6,6 +6,7 @@
         <h1>Employees</h1>
 
         <employee-form @add:employee="addEmployee"/>
+
         <employee-table
                 :employees="employees"
                 @delete:employee="deleteEmployee"
@@ -31,6 +32,7 @@
         },
 
         mounted() {
+            console.log("########### App.vue mounted ########");
             this.getEmployees()
         },
 
@@ -47,27 +49,45 @@
 
             async addEmployee(employee) {
                 try {
+                    /*
                     const response = await fetch('https://jsonplaceholder.typicode.com/users', {
                         method: 'POST',
                         body: JSON.stringify(employee),
                         headers: {"Content-type": "application/json; charset=UTF-8"}
                     })
-                    const data = await response.json()
-                    this.employees = [...this.employees, data]
+                     */
+                    //const data = await response.json()
+                    //this.employees = [...this.employees, data]
+                    let id=0;
+                    if(this.employees.length>0){
+                        const last = this.employees[this.employees.length-1];
+                        console.log("------last------",last);
+                        id=last.id+1
+                    }
+                    employee.id = id;
+                    this.employees = [...this.employees, employee]
                 } catch (error) {
                     console.error(error)
                 }
             },
 
             async editEmployee(id, updatedEmployee) {
+                console.log("-------------id-------",id);
+                console.log("-------------updatedEmployee-----",updatedEmployee);
                 try {
-                    const response = await fetch(`https://jsonplaceholder.typicode.com/users/${id}`, {
-                        method: 'PUT',
-                        body: JSON.stringify(updatedEmployee),
-                        headers: {"Content-type": "application/json; charset=UTF-8"}
-                    })
-                    const data = await response.json()
-                    this.employees = this.employees.map(employee => employee.id === id ? data : employee)
+                    //const response = await fetch(`https://jsonplaceholder.typicode.com/users/${id}`, {
+                    //    method: 'PUT',
+                    //    body: JSON.stringify(updatedEmployee),
+                    //    headers: {"Content-type": "application/json; charset=UTF-8"}
+                    //})
+                    //const data = await response.json()
+                    //this.employees = this.employees.map(employee => employee.id === id ? employee : employee)
+                    const emp = this.employees.filter(employee => employee.id === id)[0];
+                    console.log('------emp',emp)
+                    const newEmp = {emp,...updatedEmployee};
+                    console.log('------emp2------',newEmp);
+                    this.employees.map(employee => employee.id === id ? newEmp : employee)
+
                 } catch (error) {
                     console.error(error)
                 }
@@ -75,9 +95,9 @@
 
             async deleteEmployee(id) {
                 try {
-                    await fetch(`https://jsonplaceholder.typicode.com/users/${id}`, {
-                        method: 'DELETE'
-                    })
+                    //await fetch(`https://jsonplaceholder.typicode.com/users/${id}`, {
+                    //    method: 'DELETE'
+                    //})
                     this.employees = this.employees.filter(employee => employee.id !== id)
                 } catch (error) {
                     console.error(error)
